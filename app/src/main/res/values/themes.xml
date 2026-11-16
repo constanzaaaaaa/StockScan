@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.StockScan" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.StockScan" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:statusBarColor">@color/stockscan_green</item>
+        <item name="android:navigationBarColor">@color/stockscan_green</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.StockScan.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/stockscan_splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_stockscan_mark</item>
+        <item name="windowSplashScreenAnimationDuration">900</item>
+        <item name="postSplashScreenTheme">@style/Theme.StockScan</item>
+    </style>
+
 </resources>

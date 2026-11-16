@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -36,10 +38,23 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
     val nav_version = "2.10.2"
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.11.0")
+
+    // Persistencia local Room. La capa DAO queda expresamente fuera de este alcance.
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
+    // Splash Screen nativa compatible con Android anteriores a 12.
+    implementation(libs.androidx.core.splashscreen)
+
     // Cámara real requerida por el caso y el ERS: CameraX + lectura ML Kit.
     implementation("androidx.camera:camera-core:1.4.2")
     implementation("androidx.camera:camera-camera2:1.4.2")
