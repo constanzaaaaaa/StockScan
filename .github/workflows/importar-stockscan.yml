@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - '.stockscan-import/READY'
+      - '*.zip'
 permissions:
   contents: write
 jobs:
@@ -11,42 +11,51 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verificar y extraer codigo fuente
+      - name: Verificar y extraer StockScan
         shell: bash
         run: |
           python3 - <<'PY'
-          import base64, hashlib, io, pathlib, shutil, tarfile
-          base = pathlib.Path(".stockscan-import")
-          parts = sorted(base.glob("part-*.txt"))
-          if not parts or not (base / "READY").exists():
-              raise SystemExit("Faltan partes de la importacion")
-          compressed = base64.b64decode("".join(x.read_text() for x in parts), validate=True)
-          expected = "4a730553f86b6d1f4ddab50058d744e2b71adce244f277ce775b7cd375b337f2"
-          actual = hashlib.sha256(compressed).hexdigest()
-          if actual != expected:
-              raise SystemExit(f"Archivo no coincide con SHA256 esperado: {actual}")
-          project = pathlib.Path.cwd().resolve()
-          with tarfile.open(fileobj=io.BytesIO(compressed), mode="r:xz") as archive:
-              members = archive.getmembers()
-              for member in members:
-                  p = pathlib.PurePosixPath(member.name)
-                  if (not member.isfile() or p.is_absolute() or
-                      ".." in p.parts or not p.parts or p.parts[0] == ".git" or
-                      p.parts[0] == ".stockscan-import"):
-                      raise SystemExit(f"Entrada no admitida: {member.name}")
-                  dest = (project / member.name).resolve()
-                  if not dest.is_relative_to(project):
-                      raise SystemExit(f"Ruta invalida: {member.name}")
-              for member in members:
-                  dest = project / member.name
-                  dest.parent.mkdir(parents=True, exist_ok=True)
-                  with archive.extractfile(member) as source, dest.open("wb") as target:
+          import hashlib
+          import pathlib
+          import shutil
+          import stat
+          import zipfile
+
+          root = pathlib.Path.cwd().resolve()
+          archive = root / "StockScan_sin_DAO_ni_Excel_CSV (2).zip"
+          expected = "90651fd97edd37209423a6d44ec3367ec86dff6928ba7a98ef4355517cbd9a73"
+          if not archive.is_file():
+              raise SystemExit("No se encontro el ZIP esperado en la raiz")
+          if hashlib.sha256(archive.read_bytes()).hexdigest() != expected:
+              raise SystemExit("El ZIP no coincide con el archivo revisado")
+          with zipfile.ZipFile(archive) as z:
+              infos = [info for info in z.infolist() if not info.is_dir()]
+              if not infos or len(infos) > 500 or sum(i.file_size for i in infos) > 10_000_000:
+                  raise SystemExit("Tamano o cantidad de archivos no permitidos")
+              for info in infos:
+                  name = info.filename
+                  p = pathlib.PurePosixPath(name)
+                  mode = info.external_attr >> 16
+                  if (p.is_absolute() or ".." in p.parts or "\\" in name or
+                      len(p.parts) < 2 or p.parts[0] != "StockScan" or
+                      stat.S_IFMT(mode) == stat.S_IFLNK):
+                      raise SystemExit(f"Ruta o archivo no permitido: {name}")
+                  relative = pathlib.Path(*p.parts[1:])
+                  destination = (root / relative).resolve()
+                  if not destination.is_relative_to(root) or relative.parts[0] in (".git", ".github"):
+                      raise SystemExit(f"Destino no permitido: {name}")
+              for info in infos:
+                  relative = pathlib.Path(*pathlib.PurePosixPath(info.filename).parts[1:])
+                  destination = root / relative
+                  destination.parent.mkdir(parents=True, exist_ok=True)
+                  with z.open(info) as source, destination.open("wb") as target:
                       shutil.copyfileobj(source, target)
-                  dest.chmod(member.mode & 0o777)
-          shutil.rmtree(base)
-          print(f"Se importaron {len(members)} archivos verificados")
+                  if relative.as_posix() == "gradlew":
+                      destination.chmod(0o755)
+          archive.unlink()
+          print(f"Se importaron {len(infos)} archivos de StockScan")
           PY
-      - name: Guardar importacion en main
+      - name: Crear commit inicial del proyecto
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
