@@ -1,7 +1,6 @@
 package com.example.stockscan
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,18 +14,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.stockscan.data.local.StockScanDatabase
+import com.example.stockscan.data.AppDatabase
+import com.example.stockscan.repository.RoomStockScanRepository
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.ui.theme.StockScanTheme
 import com.example.stockscan.ui.view.*
 import com.example.stockscan.viewmodel.StockScanViewModel
-import kotlinx.coroutines.Dispatchers
+import com.example.stockscan.viewmodel.StockScanViewModelFactory
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,18 +33,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Abre Room fuera del hilo principal y crea el esquema local.
-        // No se ejecutan operaciones de inventario porque esta entrega no incluye DAO.
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                StockScanDatabase.obtenerInstancia(applicationContext)
-                    .openHelper.writableDatabase
-            } catch (error: Exception) {
-                Log.e("StockScan", "No se pudo inicializar la base de datos Room", error)
-            }
-        }
+        val database = AppDatabase.getDatabase(applicationContext)
+        val repository = RoomStockScanRepository(database)
+        val factory = StockScanViewModelFactory(repository)
+        val viewModel = ViewModelProvider(this, factory)[StockScanViewModel::class.java]
 
-        val viewModel = ViewModelProvider(this)[StockScanViewModel::class.java]
         setContent {
             StockScanTheme {
                 var mostrarSplash by rememberSaveable { mutableStateOf(true) }

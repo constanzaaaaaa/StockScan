@@ -1,5 +1,8 @@
 package com.example.stockscan.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 
 /** Datos FICTICIOS. No son inventario de una organización real. */
 enum class Perfil(val descripcion: String, val codigo: String) {
@@ -16,23 +19,28 @@ enum class TipoAlerta(val titulo: String) {
     MINIMO("Stock mínimo"), DESCALCE("Descalce"), REPOSICION("Reposición")
 }
 
-data class Tienda(val id: String, val nombre: String, val bodega: String, val habilitada: Boolean)
+@Entity(tableName = "tiendas")
+data class Tienda(@PrimaryKey val id: String, val nombre: String, val bodega: String, val habilitada: Boolean)
+@Entity(tableName = "productos")
 data class Producto(
-    val codigoInterno: String,
+    @PrimaryKey val codigoInterno: String,
     val codigoBarras: String,
     val nombre: String,
     val categoria: String,
     val descripcion: String,
     val stockMinimo: Int
 )
+@Entity(tableName = "existencias", primaryKeys = ["tiendaId", "codigoInterno"])
 data class Existencia(val tiendaId: String, val codigoInterno: String, val cantidad: Int)
+@Entity(tableName = "movimientos")
 data class Movimiento(
-    val id: Int, val tiendaId: String, val productoId: String, val tipo: TipoMovimiento,
+    @PrimaryKey val id: Int, val tiendaId: String, val productoId: String, val tipo: TipoMovimiento,
     val cantidad: Int, val anterior: Int, val nuevo: Int, val usuario: String,
     val fechaUtc: String, val motivo: String
 )
+@Entity(tableName = "alertas")
 data class Alerta(
-    val id: Int, val tiendaId: String, val productoId: String,
+    @PrimaryKey val id: Int, val tiendaId: String, val productoId: String,
     val tipo: TipoAlerta, val descripcion: String, val usuario: String,
     val fechaUtc: String, val resuelta: Boolean = false
 )

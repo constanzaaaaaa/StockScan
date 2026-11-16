@@ -5,16 +5,67 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.stockscan.repository.InventarioPersistido
+import com.example.stockscan.repository.StockScanRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.update
 
 /** Estado de la aplicación en memoria para la demostración frontend. */
-class StockScanViewModel : ViewModel() {
+class StockScanViewModel(private val repository: StockScanRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(StockScanModel())
     val uiState: StateFlow<StockScanModel> = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            try {
+                val datos = repository.cargarInventario()
+
+                _uiState.update { estado ->
+                    estado.copy(
+                        tiendas = datos.tiendas,
+                        productos = datos.productos,
+                        existencias = datos.existencias,
+                        movimientos = datos.movimientos,
+                        alertas = datos.alertas
+                    )
+                }
+
+                // Persiste únicamente los datos de negocio. Los filtros, sesión,
+                // mensajes y conteos temporales no forman parte de la base de datos.
+                uiState
+                    .map { estado ->
+                        InventarioPersistido(
+                            tiendas = estado.tiendas,
+                            productos = estado.productos,
+                            existencias = estado.existencias,
+                            movimientos = estado.movimientos,
+                            alertas = estado.alertas
+                        )
+                    }
+                    .distinctUntilChanged()
+                    .collect { inventario ->
+                        try {
+                            repository.guardarInventario(inventario)
+                        } catch (error: Exception) {
+                            Log.e("StockScan", "No se pudo guardar el inventario", error)
+                            aviso("No se pudieron guardar los cambios del inventario")
+                        }
+                    }
+            } catch (error: Exception) {
+                Log.e("StockScan", "No se pudo cargar el inventario", error)
+                aviso("No se pudo cargar el inventario local")
+            }
+        }
+    }
 
     private fun ahoraUtc(): String = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US).apply {
         timeZone = TimeZone.getTimeZone("UTC")
@@ -77,7 +128,7 @@ class StockScanViewModel : ViewModel() {
             nuevo - actual, actual, nuevo, e.usuario, ahoraUtc(), e.movimientoMotivo.trim())
         _uiState.update { it.copy(existencias = cambiarStock(it.existencias, e.tiendaId, p.codigoInterno, nuevo),
             movimientos = listOf(movimiento) + it.movimientos, movimientoCantidad = "", movimientoMotivo = "",
-            mensaje = "Movimiento registrado en DEMO: ${actual} → ${nuevo} u.") }
+            mensaje = "Movimiento registrado: ${actual} → ${nuevo} u.") }
         return true
     }
     private fun cambiarStock(lista: List<Existencia>, tienda: String, codigo: String, nuevo: Int): List<Existencia> =
@@ -143,7 +194,7 @@ class StockScanViewModel : ViewModel() {
         }
         _uiState.update { it.copy(existencias = listaStock, movimientos = nuevosMovimientos.reversed() + it.movimientos,
             alertas = nuevasAlertas + it.alertas, conteo = null,
-            mensaje = "Conteo confirmado: ${diferencias.size} diferencias registradas (DEMO)") }
+            mensaje = "Conteo confirmado: ${diferencias.size} diferencias registradas") }
         return true
     }
     fun declararReposicion(id: String, motivo: String): Boolean {
@@ -164,7 +215,7 @@ class StockScanViewModel : ViewModel() {
         if (e.perfil != Perfil.GERENCIAL) return false
         val tienda = e.tiendas.find { it.id == id } ?: return false
         _uiState.update { it.copy(tiendas = it.tiendas.map { t -> if (t.id == id) t.copy(habilitada = !tienda.habilitada) else t },
-            mensaje = "Estado de ${tienda.nombre} actualizado (DEMO)") }
+            mensaje = "Estado de ${tienda.nombre} actualizado") }
         return true
     }
     fun guardarProducto(id: String, nombre: String, barras: String, categoria: String, descripcion: String, minimo: String): Boolean {
@@ -177,7 +228,7 @@ class StockScanViewModel : ViewModel() {
         val codigo = id.ifBlank { "P-${(e.productos.size + 1).toString().padStart(3, '0')}" }
         val producto = Producto(codigo, barras, nombre, categoria, descripcion, min)
         _uiState.update { it.copy(productos = if (id.isBlank()) it.productos + producto else it.productos.map { p -> if (p.codigoInterno == id) producto else p },
-            mensaje = "Producto guardado (DEMO)") }
+            mensaje = "Producto guardado") }
         return true
     }
     fun onFiltroHistorial(s: String) { _uiState.update { it.copy(filtroHistorial = s) } }
