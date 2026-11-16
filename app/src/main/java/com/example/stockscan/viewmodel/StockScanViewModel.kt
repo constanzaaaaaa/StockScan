@@ -19,9 +19,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.update
 
-/** Estado de la aplicación en memoria para la demostración frontend. */
+/** Estado de interfaz de StockScan; los datos de inventario se respaldan mediante Repository + Room. */
 class StockScanViewModel(private val repository: StockScanRepository) : ViewModel() {
-    private val _uiState = MutableStateFlow(StockScanModel())
+    private val _uiState = MutableStateFlow(
+        StockScanModel(tiendas = emptyList(), productos = emptyList(), existencias = emptyList())
+    )
     val uiState: StateFlow<StockScanModel> = _uiState.asStateFlow()
 
     init {
