@@ -1,8 +1,10 @@
 # StockScan — Actualización con nuevas clases del profesor
 
-**Alcance acordado:** frontend Android (Kotlin + Jetpack Compose), demo con datos ficticios en memoria, sin backend. No se hizo ningún commit ni push.
+**Estado actualizado:** aplicación Android (Kotlin + Jetpack Compose) con persistencia local Room mediante Repository y datos ficticios de demostración. No incluye backend ni sincronización remota.
 
 ## Qué se integró efectivamente
+
+| Room / KSP | Entidades de inventario, AppDatabase y Repository local | El ViewModel depende de StockScanRepository; el adaptador DAO queda encapsulado en la capa data |
 
 | Clase del profesor | Adaptación al frontend StockScan | Responsable |
 |---|---|---|
@@ -14,7 +16,9 @@
 
 ## Qué NO se incorporó (deliberadamente)
 
-- `@Entity`, `@Dao`, `AppDatabase`, Room/KSP: se excluyen del proyecto porque no se requieren para el frontend solicitado. Se conserva el patrón de estado y validaciones del ejemplo, no su persistencia.
+- Backend Spring Boot, Retrofit y sincronización remota: siguen pendientes; Room solo conserva los datos localmente.
+
+- Room/KSP: ahora se incorporan las entidades Tienda, Producto, Existencia, Movimiento y Alerta, AppDatabase y Repository. Room requiere un DAO interno para ejecutar SQL, pero el ViewModel y las pantallas no lo utilizan directamente.
 - `ApiService`, `RetrofitInstance`, repositorios HTTP y llamadas REST: no hay backend solicitado ni URL real de pruebas.
 - `GeoMapbox` y `GeolocalizacionOpenStreet`: el ERS/mockup de StockScan no requiere GPS, un mapa de sucursales ni ubicación del usuario. Evitamos pedir permisos y añadir servicios de mapas sin necesidad.
 - El `Propuesta.txt` nuevo menciona otros perfiles como cliente y reponedor; se mantienen los **tres perfiles del ERS Grupo 6**, para no modificar el alcance silenciosamente.
@@ -34,7 +38,7 @@
 1. En GitHub Desktop seleccionar **la rama correcta** antes de copiar: `rama_coni`, `rama-andres` o la rama de Vale que acuerden.
 2. Descomprimir **solo el ZIP personal** y copiar la carpeta `app` a la raíz del repositorio `StockScan`, de forma que quede `StockScan/app/src/main/java/com/example/stockscan/...`. Reemplazar solo los archivos incluidos. **Nunca borrar `.git`.**
 3. Abrir la carpeta raíz de StockScan en Android Studio; realizar sincronización Gradle, compilar y revisar pantallas.
-4. Subir los cambios únicamente cuando el equipo los revise. **No se generaron commits ni pull requests desde ChatGPT.**
+4. Revisar los cambios locales y sincronizar con la rama principal según el flujo acordado por el equipo. Esta sección describe el procedimiento histórico de integración del trabajo grupal.
 
 ## Comprobaciones
 
@@ -43,4 +47,4 @@
 - Se verificó que los ZIP contienen rutas `app/...` con archivos Kotlin; al integrarlos, no se pisan archivos entre personas.
 - **Pendiente:** compilación Android/Gradle, prueba de cámara y navegación en emulador o dispositivo; este entorno no tiene Android SDK.
 
-> El frontend simula el inventario en memoria: se restablece al cerrar la aplicación. No se presenta como stock sincronizado en tiempo real.
+> El inventario principal se conserva localmente mediante Room. El conteo en curso sigue siendo temporal. No existe sincronización con un servidor ni garantía de stock compartido en tiempo real.
