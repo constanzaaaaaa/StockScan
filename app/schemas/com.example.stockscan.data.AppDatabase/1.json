@@ -1,0 +1,260 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "473500d46b18b9abc0f023c7fe9ffd9f",
+    "entities": [
+      {
+        "tableName": "tiendas",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `nombre` TEXT NOT NULL, `bodega` TEXT NOT NULL, `habilitada` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodega",
+            "columnName": "bodega",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "habilitada",
+            "columnName": "habilitada",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "productos",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`codigoInterno` TEXT NOT NULL, `codigoBarras` TEXT NOT NULL, `nombre` TEXT NOT NULL, `categoria` TEXT NOT NULL, `descripcion` TEXT NOT NULL, `stockMinimo` INTEGER NOT NULL, PRIMARY KEY(`codigoInterno`))",
+        "fields": [
+          {
+            "fieldPath": "codigoInterno",
+            "columnName": "codigoInterno",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codigoBarras",
+            "columnName": "codigoBarras",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoria",
+            "columnName": "categoria",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descripcion",
+            "columnName": "descripcion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stockMinimo",
+            "columnName": "stockMinimo",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "codigoInterno"
+          ]
+        }
+      },
+      {
+        "tableName": "existencias",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tiendaId` TEXT NOT NULL, `codigoInterno` TEXT NOT NULL, `cantidad` INTEGER NOT NULL, PRIMARY KEY(`tiendaId`, `codigoInterno`))",
+        "fields": [
+          {
+            "fieldPath": "tiendaId",
+            "columnName": "tiendaId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codigoInterno",
+            "columnName": "codigoInterno",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "tiendaId",
+            "codigoInterno"
+          ]
+        }
+      },
+      {
+        "tableName": "movimientos",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `tiendaId` TEXT NOT NULL, `productoId` TEXT NOT NULL, `tipo` TEXT NOT NULL, `cantidad` INTEGER NOT NULL, `anterior` INTEGER NOT NULL, `nuevo` INTEGER NOT NULL, `usuario` TEXT NOT NULL, `fechaUtc` TEXT NOT NULL, `motivo` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tiendaId",
+            "columnName": "tiendaId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "anterior",
+            "columnName": "anterior",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nuevo",
+            "columnName": "nuevo",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuario",
+            "columnName": "usuario",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaUtc",
+            "columnName": "fechaUtc",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "motivo",
+            "columnName": "motivo",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "alertas",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `tiendaId` TEXT NOT NULL, `productoId` TEXT NOT NULL, `tipo` TEXT NOT NULL, `descripcion` TEXT NOT NULL, `usuario` TEXT NOT NULL, `fechaUtc` TEXT NOT NULL, `resuelta` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tiendaId",
+            "columnName": "tiendaId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descripcion",
+            "columnName": "descripcion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuario",
+            "columnName": "usuario",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaUtc",
+            "columnName": "fechaUtc",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resuelta",
+            "columnName": "resuelta",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '473500d46b18b9abc0f023c7fe9ffd9f')"
+    ]
+  }
+}
