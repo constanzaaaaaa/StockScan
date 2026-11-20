@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Pantalla de conteo físico: usa la sesión temporal del ViewModel y permite contar por cámara o ingreso manual.
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import kotlinx.coroutines.delay
@@ -12,12 +14,14 @@ import androidx.navigation.NavController
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Muestra el avance del conteo y envía cantidades a StockScanViewModel. */
 @Composable
 fun ConteoView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
     val c = e.conteo
     var codigo by remember { mutableStateOf("") }
     var transcurrido by remember(c?.id) { mutableLongStateOf(0L) }
+    /** Actualiza el cronómetro mientras exista una sesión de conteo activa. */
     LaunchedEffect(c?.id) {
         while (c != null) { transcurrido = (System.currentTimeMillis() - c.inicioMillis) / 1000; delay(1000) }
     }
@@ -25,6 +29,7 @@ fun ConteoView(navController: NavController, viewModel: StockScanViewModel) {
         if (c == null) { Text("No hay conteo en curso"); Accion("Iniciar conteo", { viewModel.iniciarConteo() }); return@Pantalla }
         Tarjeta("Sesión C-${c.id}", "${c.contados.size} de ${e.productos.size} productos contados")
         Text("Tiempo transcurrido: ${transcurrido / 60} min ${transcurrido % 60} s")
+        /** Abre EscanearView para reutilizar CamaraCodigoBarras durante el conteo. */
         Accion("Leer con la cámara", { navController.irA(Destinos.Escanear.ruta) })
         Text("Escaneos repetidos agregan +1. Puedes fijar una cantidad manualmente.")
         OutlinedTextField(value = codigo, onValueChange = { codigo = it.filter(Char::isDigit) },
@@ -40,6 +45,7 @@ fun ConteoView(navController: NavController, viewModel: StockScanViewModel) {
             HorizontalDivider()
         }
         Tarjeta("Antes de confirmar", "El stock NO cambia hasta revisar el resumen del conteo.")
+        /** Pasa al resumen sin modificar stock; la confirmación se hace en ResumenConteoView. */
         Accion("Cerrar y revisar conteo", { if(viewModel.revisarConteo()) navController.irA(Destinos.ResumenConteo.ruta) })
         OutlinedButton(onClick = { viewModel.cancelarConteo(); navController.irA(Destinos.Inicio.ruta) },
             modifier = Modifier.fillMaxWidth()) { Text("Cancelar conteo (sin guardar)") }

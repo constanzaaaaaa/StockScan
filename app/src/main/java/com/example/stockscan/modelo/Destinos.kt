@@ -1,6 +1,9 @@
 package com.example.stockscan.modelo
 
+// Catálogo de rutas de navegación; MainActivity registra estas rutas y las pantallas las usan para moverse.
+
 // Siguiendo el archivo Destinos.kt entregado por el profesor.
+/** Cada objeto representa una ruta única usada por NavHost y NavController. */
 sealed class Destinos(val ruta: String) {
     object Login: Destinos("login")
     object Tiendas: Destinos("tiendas")

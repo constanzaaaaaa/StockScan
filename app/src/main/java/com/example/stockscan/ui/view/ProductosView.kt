@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Listado y filtros del catálogo; al seleccionar un producto navega a DetalleView.
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -25,6 +27,7 @@ fun ProductosView(navController: NavController, viewModel: StockScanViewModel) {
         RowFiltros(listOf("Todas") + e.productos.map { it.categoria }.distinct(), categoria) { categoria = it }
         Seccion("Nivel de stock")
         RowFiltros(listOf("Todos", "Sobre mínimo", "Bajo mínimo"), stockFiltro) { stockFiltro = it }
+        /** Combina la búsqueda del ViewModel con los filtros locales de categoría y nivel de stock. */
         val lista = e.productosFiltrados().filter { p ->
             val cantidad = e.stockDe(p)
             (categoria == "Todas" || p.categoria == categoria) &&

@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Formulario de alta y edición: FormularioProductoModel valida los campos y StockScanViewModel actualiza el catálogo.
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -19,6 +21,7 @@ import com.example.stockscan.viewmodel.StockScanViewModel
 fun GestionProductoView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
     val p = e.productoActual()
+    /** Carga los valores del producto seleccionado o inicia un formulario vacío. */
     var formulario by remember(e.productoId) {
         mutableStateOf(FormularioProductoModel(
             nombre = p?.nombre.orEmpty(), barras = p?.codigoBarras.orEmpty(),
@@ -70,6 +73,7 @@ fun GestionProductoView(navController: NavController, viewModel: StockScanViewMo
             Text("${t.nombre}: ${e.stockDe(p, t.id)} u. (solo lectura)")
         }
         Tarjeta("Catálogo independiente", "Editar nombre, categoría o mínimo no modifica las existencias.")
+        /** Valida cada campo y, si no hay errores, delega el guardado al ViewModel. */
         Accion("Validar y guardar producto", {
             val validado = formulario.validar(e.productos, p?.codigoInterno.orEmpty())
             formulario = validado

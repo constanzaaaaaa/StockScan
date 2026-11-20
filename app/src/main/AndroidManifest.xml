@@ -2,9 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permiso solicitado por EscanearView antes de activar CameraX. -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
+    <!-- Configuración global, tema, iconos y reglas de respaldo de StockScan. -->
+    <application
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,6 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StockScan.Starting">
+        <!-- MainActivity inicializa Room, el ViewModel y el NavHost de Compose. -->
+        <activity
         <activity
             android:name=".MainActivity"
             android:exported="true"

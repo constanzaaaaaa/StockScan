@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Indicadores para GERENCIAL; agrega existencias, tiendas, productos, movimientos y alertas del ViewModel.
+
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -9,6 +11,7 @@ import com.example.stockscan.model.Perfil
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Muestra un resumen agregado; no exporta archivos ni consulta un servidor. */
 @Composable
 fun ReportesView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
@@ -19,6 +22,7 @@ fun ReportesView(navController: NavController, viewModel: StockScanViewModel) {
             return@Pantalla
         }
 
+        /** Calcula indicadores solo para las tiendas habilitadas. */
         val tiendasActivas = e.tiendas.filter { it.habilitada }
         val totalUnidades = tiendasActivas.sumOf { e.totalUnidades(it.id) }
         val alertasActivas = e.alertasActivas().size

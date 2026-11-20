@@ -1,5 +1,7 @@
 package com.example.stockscan.model
 
+// Estado temporal del formulario; GestionProductoView lo valida antes de pedir el guardado al ViewModel.
+
 /**
  * Estado del formulario como FormularioModel de las clases del profesor.
  * La demostración es exclusivamente frontend y el catálogo vive en memoria.
@@ -15,6 +17,7 @@ data class FormularioProductoModel(
     val errorCategoria: String? = null,
     val errorMinimo: String? = null
 ) {
+    /** Devuelve una copia con los errores de cada campo, sin modificar el formulario original. */
     fun validar(productos: List<Producto>, idActual: String): FormularioProductoModel = copy(
         errorNombre = if (nombre.trim().length < 3) "Ingresa al menos 3 caracteres" else null,
         errorBarras = when {
@@ -29,6 +32,7 @@ data class FormularioProductoModel(
         } else null
     )
 
+    /** Indica si todos los campos pasaron las validaciones. */
     fun esValido(): Boolean = errorNombre == null && errorBarras == null &&
         errorCategoria == null && errorMinimo == null
 }

@@ -1,5 +1,7 @@
 package com.example.stockscan.repository
 
+// Contrato de persistencia: StockScanViewModel depende de esta interfaz y RoomStockScanRepository la implementa.
+
 import com.example.stockscan.model.Alerta
 import com.example.stockscan.model.Existencia
 import com.example.stockscan.model.Movimiento
@@ -18,7 +20,10 @@ data class InventarioPersistido(
     val alertas: List<Alerta>
 )
 
+/** Abstrae el almacenamiento para poder cambiar Room sin modificar pantallas ni ViewModel. */
 interface StockScanRepository {
+    /** Entrega al ViewModel las entidades guardadas en el dispositivo. */
     suspend fun cargarInventario(): InventarioPersistido
+    /** Recibe los datos de negocio que deben persistir entre sesiones. */
     suspend fun guardarInventario(datos: InventarioPersistido)
 }

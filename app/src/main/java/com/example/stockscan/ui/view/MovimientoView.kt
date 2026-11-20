@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Formulario de entradas, salidas y ajustes; usa InventarioReglas para validar y ViewModel para registrar.
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -20,6 +22,7 @@ fun MovimientoView(navController: NavController, viewModel: StockScanViewModel) 
     val e by viewModel.uiState.collectAsStateWithLifecycle()
     var confirmar by remember { mutableStateOf(false) }
     val p = e.productoActual()
+    /** Calcula el mensaje de validación antes de habilitar la confirmación. */
     val error = if (p == null || e.movimientoCantidad.isBlank()) null else {
         InventarioReglas.validarMovimiento(e.stockDe(p), e.movimientoTipo,
             e.movimientoCantidad.toIntOrNull(), e.movimientoMotivo)
@@ -49,6 +52,7 @@ fun MovimientoView(navController: NavController, viewModel: StockScanViewModel) 
         Accion("Revisar y confirmar movimiento", { confirmar = true },
             e.movimientoCantidad.isNotBlank() && error == null && viewModel.resultadoMovimiento() != null)
     }
+    /** Resume la operación y solicita confirmación antes de modificar existencias. */
     if (confirmar && p != null) AlertDialog(
         onDismissRequest = { confirmar = false },
         title = { Text("Confirmar movimiento") },

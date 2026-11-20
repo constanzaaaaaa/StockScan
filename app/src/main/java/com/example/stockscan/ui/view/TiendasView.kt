@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Selector de tienda: filtra tiendas y confirma la selección en ViewModel antes de abrir InicioView.
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +17,7 @@ import androidx.navigation.NavController
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Permite elegir solo tiendas habilitadas y navegar al inicio de la aplicación. */
 @Composable
 fun TiendasView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
@@ -30,6 +33,7 @@ fun TiendasView(navController: NavController, viewModel: StockScanViewModel) {
         OutlinedTextField(value = busqueda, onValueChange = { busqueda = it },
             label = { Text("Buscar tienda o bodega") }, modifier = Modifier.fillMaxWidth())
         RowFiltros(listOf("Todas", "Habilitadas", "Deshabilitadas"), filtro) { filtro = it }
+        /** Aplica la búsqueda por tienda o bodega y el filtro de estado. */
         val disponibles = e.tiendas.filter { t ->
             (t.nombre.contains(busqueda, ignoreCase = true) || t.bodega.contains(busqueda, ignoreCase = true) ||
                 t.id.contains(busqueda, ignoreCase = true)) && when(filtro) {

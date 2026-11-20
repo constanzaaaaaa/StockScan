@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Panel gerencial: permite habilitar tiendas y abrir el formulario de productos.
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -11,6 +13,7 @@ import com.example.stockscan.model.Tienda
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Solo GERENCIAL puede ejecutar estas acciones; los cambios se delegan al ViewModel. */
 @Composable
 fun GestionView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
@@ -46,6 +49,7 @@ fun GestionView(navController: NavController, viewModel: StockScanViewModel) {
             navController.irA(Destinos.GestionProducto.ruta)
         })
     }
+    /** Muestra confirmación antes de cambiar el estado de una tienda. */
     val t = tiendaPorCambiar
     if (t != null) AlertDialog(
         onDismissRequest = { tiendaPorCambiar = null },

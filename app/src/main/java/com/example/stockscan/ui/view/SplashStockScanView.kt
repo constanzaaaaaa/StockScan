@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Splash animado que MainActivity muestra durante la apertura antes de iniciar la navegación.
+
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -34,8 +36,10 @@ import androidx.compose.ui.unit.sp
 import com.example.stockscan.R
 import com.example.stockscan.ui.theme.VerdeStock
 
+/** Muestra la marca StockScan y una animación breve de escala del logotipo. */
 @Composable
 fun SplashStockScanView() {
+    /** Crea la transición infinita que anima el tamaño del logotipo. */
     val transicion = rememberInfiniteTransition(label = "animacion-logo-stockscan")
     val escalaLogo by transicion.animateFloat(
         initialValue = 0.96f,

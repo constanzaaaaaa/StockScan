@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Pantalla del perfil BODEGA: filtra alertas y declara reposiciones mediante StockScanViewModel.
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
@@ -13,6 +15,7 @@ import com.example.stockscan.model.Perfil
 import com.example.stockscan.model.TipoAlerta
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Lee el estado del inventario y envía resolución o reposición al ViewModel. */
 @Composable
 fun AlertasView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
@@ -22,6 +25,7 @@ fun AlertasView(navController: NavController, viewModel: StockScanViewModel) {
     var tipo by remember { mutableStateOf("Todos") }
     Pantalla(navController, viewModel, "Alertas de bodega") {
         if (e.perfil != Perfil.BODEGA) { Text("Solo el encargado de bodega puede gestionar alertas."); return@Pantalla }
+        /** Combina alertas guardadas y automáticas, limitadas a la tienda seleccionada. */
         val lista = (e.alertas + e.alertasMinimo()).filter { it.tiendaId == e.tiendaId }
         Tarjeta("${lista.count { !it.resuelta }} alertas activas", "${lista.size} avisos en ${e.tiendaActual()?.nombre}")
         RowFiltros(listOf("Activas", "Resueltas", "Todas"), filtro) { filtro = it }
@@ -67,6 +71,7 @@ fun AlertasView(navController: NavController, viewModel: StockScanViewModel) {
 }
 
 /** Chips horizontales como los filtros de PersonaScreenFiltro del profesor. */
+/** Componente de chips reutilizable para filtrar listas en distintas pantallas. */
 @Composable
 fun RowFiltros(opciones: List<String>, seleccionado: String, cambio: (String) -> Unit) {
     Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {

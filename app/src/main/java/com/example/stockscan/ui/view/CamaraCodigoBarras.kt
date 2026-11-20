@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Lector reutilizable: CameraX entrega fotogramas, ML Kit decodifica y onCodigo devuelve el texto a EscanearView.
+
 import android.util.Size
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -56,10 +58,13 @@ fun CamaraCodigoBarras(onCodigo: (String) -> Unit) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val onCodigoActualizado by rememberUpdatedState(onCodigo)
 
+    /** Evita devolver más de un código durante la misma apertura de cámara. */
     val capturado = remember(lifecycleOwner) { AtomicBoolean(false) }
+    /** Impide analizar varios fotogramas simultáneamente. */
     val procesando = remember(lifecycleOwner) { AtomicBoolean(false) }
     val executorAnalisis = remember(lifecycleOwner) { Executors.newSingleThreadExecutor() }
 
+    /** Limita ML Kit a los formatos de códigos usados por StockScan. */
     val opcionesScanner = remember(lifecycleOwner) {
         BarcodeScannerOptions.Builder()
             .setBarcodeFormats(
@@ -78,6 +83,7 @@ fun CamaraCodigoBarras(onCodigo: (String) -> Unit) {
         BarcodeScanning.getClient(opcionesScanner)
     }
 
+    /** Vista Android que muestra en Compose la imagen en directo de CameraX. */
     val previewView = remember(context) {
         PreviewView(context).apply {
             scaleType = PreviewView.ScaleType.FILL_CENTER
@@ -92,6 +98,7 @@ fun CamaraCodigoBarras(onCodigo: (String) -> Unit) {
         mutableStateOf("Centra el QR o código de barras dentro del marco.")
     }
 
+    /** Vincula cámara y análisis al ciclo de vida; al salir libera cámara, scanner y executor. */
     DisposableEffect(lifecycleOwner) {
         val descartado = AtomicBoolean(false)
         val futuroProveedor = ProcessCameraProvider.getInstance(context)
@@ -111,11 +118,13 @@ fun CamaraCodigoBarras(onCodigo: (String) -> Unit) {
                     .build()
                     .also { it.setSurfaceProvider(previewView.surfaceProvider) }
 
+                /** Configura el análisis y conserva el fotograma más reciente para reducir retrasos. */
                 val analisisLocal = ImageAnalysis.Builder()
                     .setTargetResolution(Size(1280, 720))
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .build()
 
+                /** Envía cada fotograma a ML Kit y devuelve el código detectado mediante onCodigo. */
                 analisisLocal.setAnalyzer(executorAnalisis) { frame ->
                     val imagen = frame.image
 
@@ -162,6 +171,7 @@ fun CamaraCodigoBarras(onCodigo: (String) -> Unit) {
                 preview = previewLocal
                 analisis = analisisLocal
 
+                /** Conecta vista previa y análisis con la cámara trasera del dispositivo. */
                 camara = proveedor?.bindToLifecycle(
                     lifecycleOwner,
                     CameraSelector.DEFAULT_BACK_CAMERA,
@@ -197,6 +207,7 @@ fun CamaraCodigoBarras(onCodigo: (String) -> Unit) {
             }
         }, ContextCompat.getMainExecutor(context))
 
+        /** Detiene el análisis y libera los recursos al cerrar el lector. */
         onDispose {
             descartado.set(true)
             analisis?.clearAnalyzer()
@@ -214,6 +225,7 @@ fun CamaraCodigoBarras(onCodigo: (String) -> Unit) {
         }
     }
 
+    /** Interfaz del visor, marco de lectura, estado del escáner y control de linterna. */
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)

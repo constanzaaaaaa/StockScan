@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Historial de auditoría: muestra movimientos guardados y filtra por tienda, tipo, producto o usuario.
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -10,6 +12,7 @@ import com.example.stockscan.model.Perfil
 import com.example.stockscan.model.TipoMovimiento
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Lee los movimientos del ViewModel y presenta los resultados con componentes compartidos. */
 @Composable
 fun HistorialView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
@@ -19,6 +22,7 @@ fun HistorialView(navController: NavController, viewModel: StockScanViewModel) {
         OutlinedTextField(value = e.filtroHistorial, onValueChange = viewModel::onFiltroHistorial,
             label = { Text("Producto, usuario o tipo") }, modifier = Modifier.fillMaxWidth())
         RowFiltros(listOf("Todos") + TipoMovimiento.entries.map { it.titulo }, tipo) { tipo = it }
+        /** Aplica permisos del perfil, tipo seleccionado y texto de búsqueda. */
         val lista = e.movimientos.filter {
             (e.perfil == Perfil.GERENCIAL || it.tiendaId == e.tiendaId) &&
                 (tipo == "Todos" || it.tipo.titulo == tipo) &&

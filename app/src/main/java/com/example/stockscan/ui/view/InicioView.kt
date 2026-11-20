@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Inicio por perfil: resume la tienda activa y ofrece accesos a los flujos disponibles para cada rol.
+
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -9,6 +11,7 @@ import com.example.stockscan.model.Perfil
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Construye el panel principal usando el estado del ViewModel y las rutas de Destinos. */
 @Composable
 fun InicioView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
@@ -17,6 +20,7 @@ fun InicioView(navController: NavController, viewModel: StockScanViewModel) {
         Text("Bodega ${e.tiendaActual()?.bodega ?: "-"} · Estado de prueba")
         Tarjeta("${e.productos.size} productos únicos", "${e.totalUnidades()} unidades actuales en memoria")
         Tarjeta("${e.alertasActivas().count { it.tiendaId == e.tiendaId }} alertas", "Stock mínimo, descalces y reposiciones")
+        /** Muestra acciones distintas para OPERADOR, BODEGA y GERENCIAL. */
         when (e.perfil) {
             Perfil.OPERADOR -> {
                 Accion("Escanear producto", { navController.irA(Destinos.Escanear.ruta) })

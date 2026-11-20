@@ -1,3 +1,4 @@
+// Configura el módulo Android: Kotlin/Compose, KSP y generación del esquema Room.
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -5,6 +6,7 @@ plugins {
     alias(libs.plugins.room)
 }
 
+// Identidad, SDK, opciones de compilación y características de la app.
 android {
     namespace = "com.example.stockscan"
     compileSdk {
@@ -38,11 +40,14 @@ android {
     }
 }
 
+// Indica dónde Room exporta el esquema de la base de datos.
 room {
     schemaDirectory("$projectDir/schemas")
 }
 
+// Dependencias de navegación, ciclo de vida, persistencia, cámara y componentes Compose.
 dependencies {
+    // Navigation Compose conecta las rutas declaradas en Destinos.kt.
     val nav_version = "2.10.2"
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.11.0")
@@ -62,6 +67,7 @@ dependencies {
     implementation("androidx.camera:camera-view:1.4.2")
     implementation("com.google.mlkit:barcode-scanning:17.3.0")
 
+    // Componentes visuales y runtime de Jetpack Compose.
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

@@ -1,5 +1,7 @@
 package com.example.stockscan
 
+// Entrada de la app: conecta Room, Repository, ViewModel y navegación Compose.
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,6 +28,7 @@ import com.example.stockscan.viewmodel.StockScanViewModel
 import com.example.stockscan.viewmodel.StockScanViewModelFactory
 import kotlinx.coroutines.delay
 
+/** Inicializa la base local y comparte el ViewModel con todas las pantallas. */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Debe instalarse antes de super.onCreate para mostrar el splash nativo.
@@ -33,6 +36,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        /** Construye la cadena de dependencias: Room → Repository → Factory → ViewModel. */
         val database = AppDatabase.getDatabase(applicationContext)
         val repository = RoomStockScanRepository(database)
         val factory = StockScanViewModelFactory(repository)
@@ -52,6 +56,7 @@ class MainActivity : ComponentActivity() {
                 } else {
                     Surface(modifier = Modifier.fillMaxSize()) {
                         val navController = rememberNavController()
+                        /** Registra las rutas de Destinos y enlaza cada una con su pantalla Compose. */
                         NavHost(
                             navController = navController,
                             startDestination = Destinos.Login.ruta

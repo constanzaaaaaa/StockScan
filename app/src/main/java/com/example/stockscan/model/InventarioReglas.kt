@@ -1,7 +1,10 @@
 package com.example.stockscan.model
 
+// Reglas de dominio independientes de Android; StockScanViewModel las consulta antes de cambiar existencias.
+
 /** Reglas simples y comprobables, sin dependencias de Android. */
 object InventarioReglas {
+    /** Calcula el stock resultante y rechaza cantidades inválidas. */
     fun calcularNuevoStock(actual: Int, tipo: TipoMovimiento, cantidad: Int): Int? {
         if (actual < 0) return null
         val nuevo = when (tipo) {
@@ -12,6 +15,7 @@ object InventarioReglas {
         }
         return nuevo.takeIf { it >= 0 }
     }
+    /** Valida cantidad, motivo y disponibilidad antes de registrar una operación. */
     fun validarMovimiento(actual: Int, tipo: TipoMovimiento, cantidad: Int?, motivo: String): String? {
         if (cantidad == null) return "Ingresa una cantidad entera"
         if (tipo == TipoMovimiento.AJUSTE && motivo.isBlank()) return "El ajuste necesita un motivo"

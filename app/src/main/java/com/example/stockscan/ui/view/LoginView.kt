@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Acceso de demostración: permite elegir Perfil e ingresar credenciales ficticias validadas por el ViewModel.
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +21,7 @@ import com.example.stockscan.model.Perfil
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Presenta perfiles de prueba y envía usuario y clave a StockScanViewModel. */
 @Composable
 fun LoginView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
@@ -39,6 +42,7 @@ fun LoginView(navController: NavController, viewModel: StockScanViewModel) {
             }
         }
         Text("Acceso de prueba", fontWeight = FontWeight.Bold, fontSize = 19.sp)
+        /** Permite seleccionar el rol; el ViewModel prepara el usuario ficticio correspondiente. */
         Perfil.entries.forEach { perfil ->
             FilterChip(selected = e.perfil == perfil,
                 onClick = { viewModel.seleccionarPerfil(perfil) },
@@ -58,6 +62,7 @@ fun LoginView(navController: NavController, viewModel: StockScanViewModel) {
             modifier = Modifier.fillMaxWidth())
         Text("Clave de demostración: Demo-2026", style = MaterialTheme.typography.bodySmall)
         if (e.mensaje != null) Text(e.mensaje ?: "", color = MaterialTheme.colorScheme.error)
+        /** Si la validación ficticia es correcta, navega al selector de tiendas. */
         Accion("Acceder como ${e.perfil.codigo}", {
             if (viewModel.ingresar()) navController.navigate(Destinos.Tiendas.ruta)
         })

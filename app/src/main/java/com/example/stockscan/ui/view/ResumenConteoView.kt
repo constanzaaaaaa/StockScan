@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Revisión previa al cierre del conteo; compara cantidades iniciales y contadas antes de confirmar.
+
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -8,12 +10,14 @@ import androidx.navigation.NavController
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Muestra diferencias calculadas por StockScanModel y delega la confirmación al ViewModel. */
 @Composable
 fun ResumenConteoView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
     val c = e.conteo
     Pantalla(navController, viewModel, "Resumen del conteo") {
         if (c == null || !c.enRevision) { Text("No hay conteo pendiente de confirmar"); return@Pantalla }
+        /** Obtiene únicamente los productos cuya cantidad contada difiere del stock inicial. */
         val diferencias = e.diferenciasConteo()
         Tarjeta("Conteo C-${c.id}", "${diferencias.size} de ${e.productos.size} productos con diferencias")
         Text("Tiempo transcurrido: ${(System.currentTimeMillis() - c.inicioMillis) / 1000} segundos")

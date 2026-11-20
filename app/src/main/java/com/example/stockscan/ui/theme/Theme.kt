@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.theme
 
+// Tema Material 3 compartido por MainActivity y todas las pantallas Compose.
+
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -13,6 +15,7 @@ val FondoStock = Color(0xFFF4F8F7)
 val AlertaSuave = Color(0xFFFFF1D7)
 val ErrorSuave = Color(0xFFFFE7E3)
 
+/** Relaciona la paleta StockScan con los colores semánticos de Material 3. */
 private val ColoresStockScan = lightColorScheme(
     primary = VerdeStock,
     onPrimary = Color.White,
@@ -27,6 +30,7 @@ private val ColoresStockScan = lightColorScheme(
     error = Color(0xFFB3261E)
 )
 
+/** Aplica la paleta común a todo el contenido de la aplicación. */
 @Composable
 fun StockScanTheme(content: @Composable () -> Unit) {
     MaterialTheme(colorScheme = ColoresStockScan, content = content)

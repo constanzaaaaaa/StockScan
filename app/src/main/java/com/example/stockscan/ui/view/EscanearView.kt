@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Pantalla de escaneo: solicita permiso de cámara y conecta el lector CameraX/ML Kit con el ViewModel.
+
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -16,12 +18,14 @@ import com.example.stockscan.model.Perfil
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Permite leer un código con la cámara o escribirlo manualmente. */
 @Composable
 fun EscanearView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var permiso by remember { mutableStateOf(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) }
     var habilitarCamara by remember { mutableStateOf(false) }
+    /** Solicita CAMERA al sistema Android y actualiza el estado del permiso. */
     val pedirPermiso = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
         permiso = it
         habilitarCamara = it
@@ -29,6 +33,7 @@ fun EscanearView(navController: NavController, viewModel: StockScanViewModel) {
     Pantalla(navController, viewModel, "Escanear producto") {
         Tarjeta("Lectura de códigos", "Cámara o ingreso manual. No se guardan fotos ni videos.")
         if (permiso && habilitarCamara) {
+            /** Recibe el texto detectado por ML Kit y lo dirige al conteo activo o a la búsqueda del producto. */
             CamaraCodigoBarras(onCodigo = { codigo ->
                 habilitarCamara = false
                 val conteoActual = e.conteo

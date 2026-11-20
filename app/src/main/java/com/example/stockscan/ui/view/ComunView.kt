@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Componentes visuales compartidos: Pantalla, Accion, Tarjeta y Seccion mantienen diseño y navegación por perfil.
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,9 +22,11 @@ import com.example.stockscan.model.Perfil
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Navega a una ruta sin duplicar la misma pantalla en la pila. */
 fun NavController.irA(ruta: String) { navigate(ruta) { launchSingleTop = true } }
 
 // Contenedor compartido para mantener todas las pantallas con el mismo estilo.
+/** Construye la estructura común, pestañas por perfil y mensajes del ViewModel. */
 @Composable
 fun Pantalla(
     navController: NavController, viewModel: StockScanViewModel, titulo: String,
@@ -30,6 +34,7 @@ fun Pantalla(
 ) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
     val ruta = navController.currentBackStackEntryAsState().value?.destination?.route
+    /** Define la navegación inferior según los permisos del perfil activo. */
     val pestanas = when (e.perfil) {
         Perfil.OPERADOR -> listOf(Triple("Inicio", "⌂", Destinos.Inicio.ruta),
             Triple("Escanear", "▣", Destinos.Escanear.ruta),
@@ -96,6 +101,7 @@ fun Pantalla(
     }
 }
 
+/** Botón principal reutilizable para ejecutar acciones de cada pantalla. */
 @Composable
 fun Accion(texto: String, onClick: () -> Unit, habilitado: Boolean = true) {
     Button(
@@ -105,6 +111,7 @@ fun Accion(texto: String, onClick: () -> Unit, habilitado: Boolean = true) {
     ) { Text(texto, fontSize = 16.sp, fontWeight = FontWeight.SemiBold) }
 }
 
+/** Tarjeta reutilizable para mostrar información y, opcionalmente, navegar al tocarla. */
 @Composable
 fun Tarjeta(titulo: String, detalle: String, onClick: (() -> Unit)? = null) {
     Card(
@@ -123,6 +130,7 @@ fun Tarjeta(titulo: String, detalle: String, onClick: (() -> Unit)? = null) {
     }
 }
 
+/** Título reutilizable para separar bloques dentro de una pantalla. */
 @Composable
 fun Seccion(texto: String) {
     Text(texto, fontSize = 19.sp, fontWeight = FontWeight.SemiBold,

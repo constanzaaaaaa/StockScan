@@ -1,5 +1,7 @@
 package com.example.stockscan.ui.view
 
+// Detalle del producto seleccionado: consulta StockScanModel y deriva al flujo de movimientos si el perfil es operador.
+
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -9,6 +11,7 @@ import com.example.stockscan.model.Perfil
 import com.example.stockscan.modelo.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
+/** Presenta datos, stock y estado del producto seleccionado en el ViewModel. */
 @Composable
 fun DetalleView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
@@ -16,6 +19,7 @@ fun DetalleView(navController: NavController, viewModel: StockScanViewModel) {
     Pantalla(navController, viewModel, "Detalle de producto") {
         if (p == null) { Text("Producto no encontrado"); return@Pantalla }
         val cantidad = e.stockDe(p)
+        /** Clasifica el stock comparando las unidades disponibles con el mínimo configurado. */
         val estado = when {
             cantidad == 0 -> "En quiebre"
             cantidad <= p.stockMinimo -> "Stock bajo mínimo"

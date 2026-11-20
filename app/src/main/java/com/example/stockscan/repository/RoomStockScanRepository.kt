@@ -1,5 +1,7 @@
 package com.example.stockscan.repository
 
+// Implementación Room del contrato StockScanRepository; encapsula el DAO para que el ViewModel no conozca SQLite.
+
 import androidx.room.withTransaction
 import com.example.stockscan.data.AppDatabase
 import com.example.stockscan.model.StockScanModel
@@ -12,8 +14,10 @@ class RoomStockScanRepository(
     private val database: AppDatabase
 ) : StockScanRepository {
 
+    /** DAO privado que ejecuta las consultas definidas en StockScanDAO. */
     private val storage = database.stockScanDAO()
 
+    /** Lee el inventario persistido y carga datos demo solo cuando la base está vacía. */
     override suspend fun cargarInventario(): InventarioPersistido {
         return database.withTransaction {
             var tiendas = storage.obtenerTiendas()
@@ -44,6 +48,7 @@ class RoomStockScanRepository(
         }
     }
 
+    /** Guarda el snapshot de negocio dentro de una transacción Room. */
     override suspend fun guardarInventario(datos: InventarioPersistido) {
         database.withTransaction {
             // REPLACE actualiza registros existentes y agrega los nuevos.
