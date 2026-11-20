@@ -2,7 +2,6 @@
 <resources>
 
     <!-- Tema nativo posterior al splash; define barras del sistema y ventana. -->
-    <style name="Theme.StockScan"
     <style name="Theme.StockScan" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:statusBarColor">@color/stockscan_green</item>
@@ -11,7 +10,6 @@
     </style>
 
     <!-- Tema inicial: configura el splash y luego cambia a Theme.StockScan. -->
-    <style name="Theme.StockScan.Starting"
     <style name="Theme.StockScan.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/stockscan_splash_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_stockscan_mark</item>

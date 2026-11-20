@@ -1,5 +1,4 @@
 <!-- Textos globales que Android utiliza fuera de los componentes Compose. -->
 <resources>
-<resources>
     <string name="app_name">StockScan</string>
 </resources>

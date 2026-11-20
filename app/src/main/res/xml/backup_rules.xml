@@ -7,7 +7,6 @@
 -->
 <!-- Reglas de Auto Backup; actualmente no se personalizan exclusiones ni inclusiones. -->
 <full-backup-content>
-<full-backup-content>
     <!--
    <include domain="sharedpref" path="."/>
    <exclude domain="sharedpref" path="device.xml"/>

@@ -1,6 +1,5 @@
 # Flujo automático: valida un ZIP de entrega y lo integra a main cuando llega por push.
 name: Importar proyecto StockScan
-name: Importar proyecto StockScan
 on:
   push:
     branches: [main]
@@ -8,23 +7,19 @@ on:
       - '*.zip'
  # Permiso mínimo para crear el commit de importación.
 permissions:
-permissions:
   contents: write
  # El job verifica el archivo antes de extraerlo y evita rutas inseguras.
-jobs:
 jobs:
   importar:
     runs-on: ubuntu-latest
     steps:
       # Descarga el repositorio para ejecutar la validación y el commit.
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
       - name: Verificar y extraer StockScan
         shell: bash
         run: |
           python3 - <<'PY'
           # Comprueba el hash y las rutas del ZIP antes de copiar archivos.
-          import hashlib
           import hashlib
           import pathlib
           import shutil
