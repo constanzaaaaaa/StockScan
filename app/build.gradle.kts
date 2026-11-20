@@ -52,7 +52,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.11.0")
 
-    // Persistencia local Room. La capa DAO queda expresamente fuera de este alcance.
+    // Persistencia local Room; el DAO queda encapsulado dentro de RoomStockScanRepository.
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
