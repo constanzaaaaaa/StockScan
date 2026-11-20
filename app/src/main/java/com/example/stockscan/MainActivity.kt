@@ -76,6 +76,7 @@ class MainActivity : ComponentActivity() {
                             composable(Destinos.Gestion.ruta) { GestionView(navController, viewModel) }
                             composable(Destinos.GestionProducto.ruta) { GestionProductoView(navController, viewModel) }
                             composable(Destinos.Reportes.ruta) { ReportesView(navController, viewModel) }
+                            composable(Destinos.Ubicacion.ruta) { UbicacionView(navController) }
                         }
                     }
                 }
