@@ -1,7 +1,8 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.inventory
 
 // Pantalla de escaneo: solicita permiso de cámara y conecta el lector CameraX/ML Kit con el ViewModel.
 
+import com.example.stockscan.ui.components.*
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -15,7 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.stockscan.model.Perfil
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Permite leer un código con la cámara o escribirlo manualmente. */

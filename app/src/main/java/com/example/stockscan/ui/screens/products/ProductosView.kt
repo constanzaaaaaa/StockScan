@@ -1,7 +1,8 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.products
 
 // Listado y filtros del catálogo; al seleccionar un producto navega a DetalleView.
 
+import com.example.stockscan.ui.components.*
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -9,7 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Búsqueda y filtros inspirados en PersonaScreenFiltro del profesor. */

@@ -1,7 +1,8 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.inventory
 
 // Pantalla del perfil BODEGA: filtra alertas y declara reposiciones mediante StockScanViewModel.
 
+import com.example.stockscan.ui.components.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState

@@ -1,4 +1,4 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.components
 
 // Lector reutilizable: CameraX entrega fotogramas, ML Kit decodifica y onCodigo devuelve el texto a EscanearView.
 

@@ -1,4 +1,4 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.components
 
 // Componentes visuales compartidos: Pantalla, Accion, Tarjeta y Seccion mantienen diseño y navegación por perfil.
 
@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.stockscan.model.Perfil
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Navega a una ruta sin duplicar la misma pantalla en la pila. */

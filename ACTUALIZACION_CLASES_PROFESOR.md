@@ -31,7 +31,7 @@
 
 **Vale**: ProductosView, MovimientoView, ConteoView, ResumenConteoView, HistorialView, ReportesView. Búsquedas, chips, validación en movimiento y filtros de auditoría. `ConteoView` y `ReportesView` se mantienen de la versión anterior porque ya seguían el flujo del mockup.
 
-**Coni**: FormularioProductoModel (nuevo), Theme, ComunView, GestionProductoView, GestionView, AlertasView y ResumenView. Formularios validados, modal de confirmación, filtros de alertas y tablero de gerencia. Se incluye un test JUnit para el nuevo modelo.
+**Coni**: FormularioProductoModel (nuevo), Theme, ComponentesComunes, GestionProductoView, GestionView, AlertasView y ResumenView. Formularios validados, modal de confirmación, filtros de alertas y tablero de gerencia. Se incluye un test JUnit para el nuevo modelo.
 
 ## Cómo copiar a las ramas
 

@@ -1,13 +1,14 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.inventory
 
 // Revisión previa al cierre del conteo; compara cantidades iniciales y contadas antes de confirmar.
 
+import com.example.stockscan.ui.components.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Muestra diferencias calculadas por StockScanModel y delega la confirmación al ViewModel. */

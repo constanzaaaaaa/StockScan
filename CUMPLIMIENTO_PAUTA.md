@@ -1,6 +1,6 @@
 # Matriz de cumplimiento — StockScan Grupo 6
 
-Fuentes revisadas: **002_Formato_Caso_MultiTienda (3 págs.)**, **Propuesta Solucion StockScan Grupo 6 (3 págs., apartado 5)** y **mockup StockScan (1 pág.)**. No se recibió una rúbrica de puntajes separada. Los siguientes son los requisitos que esos archivos sí documentan.
+Fuentes revisadas: **002_Formato_Caso_MultiTienda (3 págs.)**, **Propuesta Solucion StockScan Grupo 6 (3 págs., apartado 5)** y **mockup StockScan (1 pág.)**. Los siguientes son los requisitos que esos archivos documentan; esta matriz no reemplaza la pauta oficial de evaluación.
 
 | Requisito del ERS | Implementación en esta versión | Evaluación verificable |
 |---|---|---|

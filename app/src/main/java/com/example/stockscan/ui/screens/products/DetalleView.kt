@@ -1,7 +1,8 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.products
 
 // Detalle del producto seleccionado: consulta StockScanModel y deriva al flujo de movimientos si el perfil es operador.
 
+import com.example.stockscan.ui.components.*
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.stockscan.model.Perfil
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.repository.FotoProductoRepository
 import com.example.stockscan.viewmodel.StockScanViewModel
 

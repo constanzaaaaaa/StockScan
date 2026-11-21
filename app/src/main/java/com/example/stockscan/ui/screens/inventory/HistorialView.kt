@@ -1,7 +1,8 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.inventory
 
 // Historial de auditoría: muestra movimientos guardados y filtra por tienda, tipo, producto o usuario.
 
+import com.example.stockscan.ui.components.*
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*

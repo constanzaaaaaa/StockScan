@@ -1,7 +1,8 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.inventory
 
 // Pantalla de conteo físico: usa la sesión temporal del ViewModel y permite contar por cámara o ingreso manual.
 
+import com.example.stockscan.ui.components.*
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import kotlinx.coroutines.delay
@@ -11,7 +12,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Muestra el avance del conteo y envía cantidades a StockScanViewModel. */

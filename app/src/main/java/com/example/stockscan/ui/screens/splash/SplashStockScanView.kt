@@ -1,4 +1,4 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.splash
 
 // Splash animado que MainActivity muestra durante la apertura antes de iniciar la navegación.
 

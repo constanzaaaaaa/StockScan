@@ -1,7 +1,8 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.products
 
 // Panel gerencial: permite habilitar tiendas y abrir el formulario de productos.
 
+import com.example.stockscan.ui.components.*
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -10,7 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.stockscan.model.Perfil
 import com.example.stockscan.model.Tienda
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Solo GERENCIAL puede ejecutar estas acciones; los cambios se delegan al ViewModel. */

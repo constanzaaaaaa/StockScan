@@ -12,15 +12,60 @@
 4. Perfiles de prueba: `OP-007` (operador), `EB-001` (bodega), `GE-001` (gerencial); contraseña **`Demo-2026`** para los tres.
 5. Elige una tienda (T-01 Norte, T-02 Centro o T-03 Sur). T-04 Reserva empieza deshabilitada.
 
+## Estructura de carpetas y flujo
+
+La carpeta principal del código está organizada por responsabilidad:
+
+```text
+com.example.stockscan/
+├── MainActivity.kt
+├── data/
+│   ├── AppDatabase.kt
+│   └── StockScanDAO.kt
+├── model/
+│   ├── StockScanModel.kt
+│   ├── FormularioProductoModel.kt
+│   └── InventarioReglas.kt
+├── navigation/
+│   ├── Destinos.kt
+│   └── StockScanNavHost.kt
+├── repository/
+│   ├── StockScanRepository.kt
+│   ├── RoomStockScanRepository.kt
+│   └── FotoProductoRepository.kt
+├── ui/
+│   ├── components/
+│   │   ├── ComponentesComunes.kt
+│   │   └── CamaraCodigoBarras.kt
+│   ├── screens/
+│   │   ├── auth/
+│   │   ├── home/
+│   │   ├── inventory/
+│   │   ├── products/
+│   │   └── splash/
+│   └── theme/
+│       └── Theme.kt
+└── viewmodel/
+    ├── StockScanViewModel.kt
+    └── StockScanViewModelFactory.kt
+```
+
+**Flujo principal:** `MainActivity` crea `AppDatabase`, `RoomStockScanRepository` y `StockScanViewModel`. Después llama a `StockScanNavHost`, que conecta `Destinos` con las pantallas. Las pantallas envían acciones al ViewModel; este aplica las reglas y utiliza `StockScanRepository` para persistir inventario con Room. El DAO queda interno a la implementación de Room.
+
+**Fotografías:** `GestionProductoView` y `DetalleView` usan `FotoProductoRepository` para guardar y recuperar imágenes en el almacenamiento privado del dispositivo; esas imágenes no se guardan dentro de Room.
+
 ## Persistencia local
 
 La aplicación utiliza **MVVM + Repository + Room**:
 
-- `model/StockScanModel.kt`: entidades Room para tiendas, productos, existencias, movimientos y alertas; el conteo en curso es temporal.
-- `data/AppDatabase.kt`: base de datos Room y conversores para los enums.
+- `model/StockScanModel.kt`: estado de interfaz y modelos de inventario; las entidades Room están declaradas aquí y el conteo en curso es temporal.
+- `data/AppDatabase.kt`: configura Room y los conversores. El nombre local de la base es `stockscan_database`.
 - `data/StockScanDAO.kt`: adaptador interno requerido por Room; no se utiliza directamente desde ViewModel ni desde las pantallas.
 - `repository/StockScanRepository.kt`: contrato de acceso a inventario.
 - `repository/RoomStockScanRepository.kt`: implementación local que encapsula consultas y escrituras Room.
+- `navigation/StockScanNavHost.kt` y `navigation/Destinos.kt`: registran las rutas y conectan cada pantalla.
+- `ui/components/`: contiene componentes reutilizables y el lector de códigos.
+- `ui/screens/`: agrupa pantallas por acceso, inicio, inventario, productos y splash.
 - `viewmodel/StockScanViewModel.kt`: conserva el estado de interfaz y depende de Repository, no de Room ni del DAO.
 - `viewmodel/StockScanViewModelFactory.kt`: inyección del repositorio al ViewModel.
 

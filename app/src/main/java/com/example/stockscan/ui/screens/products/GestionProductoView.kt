@@ -1,7 +1,8 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.products
 
 // Formulario de alta y edición: FormularioProductoModel valida los campos y StockScanViewModel actualiza el catálogo.
 
+import com.example.stockscan.ui.components.*
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -25,7 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.stockscan.model.FormularioProductoModel
 import com.example.stockscan.model.Perfil
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.repository.FotoProductoRepository
 import kotlinx.coroutines.launch
 import com.example.stockscan.viewmodel.StockScanViewModel

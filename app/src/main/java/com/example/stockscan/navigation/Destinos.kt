@@ -1,6 +1,6 @@
-package com.example.stockscan.modelo
+package com.example.stockscan.navigation
 
-// Catálogo de rutas de navegación; MainActivity registra estas rutas y las pantallas las usan para moverse.
+// Catálogo de rutas de navegación; StockScanNavHost registra estas rutas y las pantallas las usan para moverse.
 
 // Siguiendo el archivo Destinos.kt entregado por el profesor.
 /** Cada objeto representa una ruta única usada por NavHost y NavController. */

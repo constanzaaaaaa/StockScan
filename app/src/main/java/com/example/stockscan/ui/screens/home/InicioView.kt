@@ -1,14 +1,15 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.home
 
 // Inicio por perfil: resume la tienda activa y ofrece accesos a los flujos disponibles para cada rol.
 
+import com.example.stockscan.ui.components.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.stockscan.model.Perfil
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Construye el panel principal usando el estado del ViewModel y las rutas de Destinos. */

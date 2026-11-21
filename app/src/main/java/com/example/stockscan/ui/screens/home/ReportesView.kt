@@ -1,14 +1,15 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.home
 
 // Indicadores para GERENCIAL; agrega existencias, tiendas, productos, movimientos y alertas del ViewModel.
 
+import com.example.stockscan.ui.components.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.stockscan.model.Perfil
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Muestra un resumen agregado; no exporta archivos ni consulta un servidor. */

@@ -73,6 +73,7 @@ abstract class AppDatabase : RoomDatabase() {
                 INSTANCIA ?: Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
+                    // Nombre del archivo de base de datos SQLite local de StockScan.
                     "stockscan_database"
                 ).build().also { INSTANCIA = it }
             }

@@ -1,7 +1,8 @@
-package com.example.stockscan.ui.view
+package com.example.stockscan.ui.screens.inventory
 
 // Formulario de entradas, salidas y ajustes; usa InventarioReglas para validar y ViewModel para registrar.
 
+import com.example.stockscan.ui.components.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -13,7 +14,7 @@ import androidx.navigation.NavController
 import com.example.stockscan.model.InventarioReglas
 import com.example.stockscan.model.Perfil
 import com.example.stockscan.model.TipoMovimiento
-import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Validaciones y diálogo de confirmación con la metodología de formularios del profesor. */
