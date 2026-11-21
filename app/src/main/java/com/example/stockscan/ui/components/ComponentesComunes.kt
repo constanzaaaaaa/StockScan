@@ -3,6 +3,7 @@ package com.example.stockscan.ui.components
 // Componentes visuales compartidos: Pantalla, Accion, Tarjeta y Seccion mantienen diseño y navegación por perfil.
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
