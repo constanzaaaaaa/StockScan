@@ -13,7 +13,7 @@ room = "2.8.5"
 ksp = "2.2.10-2.0.2"
 coreSplashscreen = "1.2.0"
 
-// Alias de bibliotecas que se referencian desde los archivos build.gradle.kts.
+# Alias de bibliotecas que se referencian desde los archivos build.gradle.kts.
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -34,7 +34,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
-// Alias de plugins Gradle aplicados en el proyecto raíz y en app.
+# Alias de plugins Gradle aplicados en el proyecto raíz y en app.
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
