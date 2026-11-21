@@ -2,7 +2,7 @@ package com.example.stockscan.navigation
 
 // Catálogo de rutas de navegación; StockScanNavHost registra estas rutas y las pantallas las usan para moverse.
 
-// Siguiendo el archivo Destinos.kt entregado por el profesor.
+// Siguiendo el archivo Destinos.kt
 /** Cada objeto representa una ruta única usada por NavHost y NavController. */
 sealed class Destinos(val ruta: String) {
     object Login: Destinos("login")

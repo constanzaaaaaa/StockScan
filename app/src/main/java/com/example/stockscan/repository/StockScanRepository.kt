@@ -10,7 +10,7 @@ import com.example.stockscan.model.Tienda
 
 /**
  * Instantánea de los datos de inventario que deben sobrevivir al cierre de la app.
- * El conteo en curso se mantiene temporal, igual que en el proyecto de referencia.
+ * El conteo en curso se mantiene temporal
  */
 data class InventarioPersistido(
     val tiendas: List<Tienda>,
