@@ -1,4 +1,4 @@
-// Versiones centralizadas para evitar repetir números en los módulos.
+# Versiones centralizadas para evitar repetir números en los módulos.
 [versions]
 agp = "9.4.1"
 coreKtx = "1.19.1"
