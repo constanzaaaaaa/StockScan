@@ -4,8 +4,6 @@
 
     <!-- Permiso solicitado por EscanearView antes de activar CameraX. -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <!-- Configuración global, tema, iconos y reglas de respaldo de StockScan. -->

@@ -2,13 +2,27 @@ package com.example.stockscan.ui.view
 
 // Detalle del producto seleccionado: consulta StockScanModel y deriva al flujo de movimientos si el perfil es operador.
 
+import android.graphics.Bitmap
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.stockscan.model.Perfil
 import com.example.stockscan.modelo.Destinos
+import com.example.stockscan.repository.FotoProductoRepository
 import com.example.stockscan.viewmodel.StockScanViewModel
 
 /** Presenta datos, stock y estado del producto seleccionado en el ViewModel. */
@@ -16,6 +30,14 @@ import com.example.stockscan.viewmodel.StockScanViewModel
 fun DetalleView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
     val p = e.productoActual()
+    val contexto = LocalContext.current
+    val fotosRepository = remember(contexto) { FotoProductoRepository(contexto) }
+    var fotoProducto by remember(p?.codigoInterno) { mutableStateOf<Bitmap?>(null) }
+
+    // Lee la fotografía interna seleccionada desde GestionProductoView, si existe.
+    LaunchedEffect(p?.codigoInterno) {
+        fotoProducto = p?.let { fotosRepository.cargarFoto(it.codigoInterno) }
+    }
     Pantalla(navController, viewModel, "Detalle de producto") {
         if (p == null) { Text("Producto no encontrado"); return@Pantalla }
         val cantidad = e.stockDe(p)
@@ -26,6 +48,14 @@ fun DetalleView(navController: NavController, viewModel: StockScanViewModel) {
             else -> "Stock normal"
         }
         Seccion(p.nombre)
+        fotoProducto?.let { bitmap ->
+            Image(
+                bitmap = bitmap.asImageBitmap(),
+                contentDescription = "Fotografía de ${p.nombre}",
+                modifier = Modifier.fillMaxWidth().height(200.dp),
+                contentScale = ContentScale.Fit
+            )
+        }
         Text("${p.categoria} · Código interno ${p.codigoInterno}")
         ElevatedCard {
             ListItem(headlineContent = { Text("$cantidad unidades disponibles") },

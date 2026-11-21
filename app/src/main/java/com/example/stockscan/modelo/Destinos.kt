@@ -20,5 +20,4 @@ sealed class Destinos(val ruta: String) {
     object Gestion: Destinos("gestion")
     object GestionProducto: Destinos("gestion_producto")
     object Reportes: Destinos("reportes")
-    object Ubicacion: Destinos("ubicacion")
 }

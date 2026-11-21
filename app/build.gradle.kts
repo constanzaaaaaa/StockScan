@@ -60,12 +60,6 @@ dependencies {
     // Splash Screen nativa compatible con Android anteriores a 12.
     implementation(libs.androidx.core.splashscreen)
 
-    // Ubicación y mapa: mismas bibliotecas utilizadas en el ejemplo GeoMapbox del profesor.
-    implementation("com.google.android.gms:play-services-location:21.0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.0")
-    implementation("com.mapbox.maps:android-ndk27:11.16.2")
-    implementation("com.mapbox.extension:maps-compose-ndk27:11.16.2")
-
     // Cámara real requerida por el caso y el ERS: CameraX + lectura ML Kit.
     implementation("androidx.camera:camera-core:1.4.2")
     implementation("androidx.camera:camera-camera2:1.4.2")

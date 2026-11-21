@@ -20,7 +20,6 @@ fun InicioView(navController: NavController, viewModel: StockScanViewModel) {
         Text("Bodega ${e.tiendaActual()?.bodega ?: "-"} · Estado de prueba")
         Tarjeta("${e.productos.size} productos únicos", "${e.totalUnidades()} unidades actuales en memoria")
         Tarjeta("${e.alertasActivas().count { it.tiendaId == e.tiendaId }} alertas", "Stock mínimo, descalces y reposiciones")
-        Accion("Ver mi ubicación", { navController.irA(Destinos.Ubicacion.ruta) })
         /** Muestra acciones distintas para OPERADOR, BODEGA y GERENCIAL. */
         when (e.perfil) {
             Perfil.OPERADOR -> {
