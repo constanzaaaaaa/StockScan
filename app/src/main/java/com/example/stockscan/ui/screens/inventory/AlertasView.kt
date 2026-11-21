@@ -4,8 +4,6 @@ package com.example.stockscan.ui.screens.inventory
 
 import com.example.stockscan.ui.components.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -68,16 +66,5 @@ fun AlertasView(navController: NavController, viewModel: StockScanViewModel) {
         Accion("Declarar reposición", { if (viewModel.declararReposicion(productoId, motivo)) motivo = "" },
             habilitado = motivo.isNotBlank())
         Tarjeta("Aviso", "Declarar una reposición no aumenta las existencias.")
-    }
-}
-
-/** Chips horizontales como los filtros de PersonaScreenFiltro del profesor. */
-/** Componente de chips reutilizable para filtrar listas en distintas pantallas. */
-@Composable
-fun RowFiltros(opciones: List<String>, seleccionado: String, cambio: (String) -> Unit) {
-    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-        opciones.forEach { opcion ->
-            FilterChip(selected = seleccionado == opcion, onClick = { cambio(opcion) }, label = { Text(opcion) })
-        }
     }
 }

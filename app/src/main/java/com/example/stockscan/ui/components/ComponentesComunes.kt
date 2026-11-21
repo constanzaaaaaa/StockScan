@@ -136,3 +136,20 @@ fun Seccion(texto: String) {
     Text(texto, fontSize = 19.sp, fontWeight = FontWeight.SemiBold,
         color = MaterialTheme.colorScheme.onBackground)
 }
+
+/** Chips horizontales reutilizables para filtrar listas en distintas pantallas. */
+@Composable
+fun RowFiltros(opciones: List<String>, seleccionado: String, cambio: (String) -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        opciones.forEach { opcion ->
+            FilterChip(
+                selected = seleccionado == opcion,
+                onClick = { cambio(opcion) },
+                label = { Text(opcion) }
+            )
+        }
+    }
+}
