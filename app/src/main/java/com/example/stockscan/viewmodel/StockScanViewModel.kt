@@ -260,7 +260,9 @@ class StockScanViewModel(private val repository: StockScanRepository) : ViewMode
         val e = _uiState.value
         if (e.perfil != Perfil.GERENCIAL) return false
         val min = minimo.toIntOrNull()
-        if (nombre.isBlank() || barras.isBlank() || categoria.isBlank() || min == null || min < 0) { aviso("Revisa nombre, barras, categoría y mínimo"); return false }
+        // Misma regla que FormularioProductoModel: al menos 3 caracteres en el nombre, sin contar espacios extremos.
+        if (nombre.trim().length < 3) { aviso("Ingresa al menos 3 caracteres para el nombre del producto"); return false }
+        if (barras.isBlank() || categoria.isBlank() || min == null || min < 0) { aviso("Revisa barras, categoría y mínimo"); return false }
         if (!barras.all(Char::isDigit)) { aviso("El código de barras debe ser numérico"); return false }
         if (e.productos.any { it.codigoBarras == barras && it.codigoInterno != id }) { aviso("Código de barras duplicado"); return false }
         val codigo = id.ifBlank { "P-${(e.productos.size + 1).toString().padStart(3, '0')}" }
