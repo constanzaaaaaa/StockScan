@@ -60,7 +60,7 @@ dependencies {
     // Splash Screen nativa compatible con Android anteriores a 12.
     implementation(libs.androidx.core.splashscreen)
 
-    // Cámara real requerida por el caso y el ERS: CameraX + lectura ML Kit.
+    // Camara real: CameraX + lectura ML Kit.
     implementation("androidx.camera:camera-core:1.4.2")
     implementation("androidx.camera:camera-camera2:1.4.2")
     implementation("androidx.camera:camera-lifecycle:1.4.2")

@@ -40,8 +40,13 @@ class MainActivity : ComponentActivity() {
         val viewModel = ViewModelProvider(this, factory)[StockScanViewModel::class.java]
 
         setContent {
+
+            /** mostrar el splash*/
+
             StockScanTheme {
                 var mostrarSplash by rememberSaveable { mutableStateOf(true) }
+
+
 
                 LaunchedEffect(Unit) {
                     delay(1400L)

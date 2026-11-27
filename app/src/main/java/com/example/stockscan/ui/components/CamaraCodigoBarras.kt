@@ -118,7 +118,7 @@ fun CamaraCodigoBarras(onCodigo: (String) -> Unit) {
                     .build()
                     .also { it.setSurfaceProvider(previewView.surfaceProvider) }
 
-                /** Configura el análisis y conserva el fotograma más reciente para reducir retrasos. */
+                /** configura el análisis de las imágenes que recibe la cámara. */
                 val analisisLocal = ImageAnalysis.Builder()
                     .setTargetResolution(Size(1280, 720))
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -144,7 +144,7 @@ fun CamaraCodigoBarras(onCodigo: (String) -> Unit) {
                                 imagen,
                                 frame.imageInfo.rotationDegrees
                             )
-                        )
+                        )   /** termina correctamente el análisis, revisa los códigos reconocidos y obtiene el primer valor que no esté vacío*/
                             .addOnSuccessListener { codigos ->
                                 val valor = codigos
                                     .firstOrNull { !it.rawValue.isNullOrBlank() }

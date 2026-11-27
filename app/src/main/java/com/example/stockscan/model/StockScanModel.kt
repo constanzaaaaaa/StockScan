@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-/** Datos FICTICIOS. No son inventario de una organización real. */
+
 /** Perfiles ficticios que controlan las opciones y acciones disponibles. */
 enum class Perfil(val descripcion: String, val codigo: String) {
     OPERADOR("Operador", "OP-007"),

@@ -69,7 +69,7 @@ fun DetalleView(navController: NavController, viewModel: StockScanViewModel) {
             Text("Atención: el producto requiere revisión de reposición.",
                 color = MaterialTheme.colorScheme.error)
         }
-        Text("Información de prueba; no hay conexión con stock real.")
+        Text("Información.")
         if (e.perfil == Perfil.OPERADOR) {
             Accion("Registrar movimiento", { navController.irA(Destinos.Movimiento.ruta) })
         }

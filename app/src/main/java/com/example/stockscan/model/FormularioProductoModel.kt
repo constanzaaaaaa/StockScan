@@ -3,7 +3,6 @@ package com.example.stockscan.model
 // Estado temporal del formulario; GestionProductoView lo valida antes de pedir el guardado al ViewModel.
 
 /**
- * Estado del formulario como FormularioModel de las clases del profesor.
  * La demostración es exclusivamente frontend y el catálogo vive en memoria.
  */
 data class FormularioProductoModel(

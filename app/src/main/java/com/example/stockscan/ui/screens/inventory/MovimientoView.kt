@@ -17,12 +17,13 @@ import com.example.stockscan.model.TipoMovimiento
 import com.example.stockscan.navigation.Destinos
 import com.example.stockscan.viewmodel.StockScanViewModel
 
-/** Validaciones y diálogo de confirmación con la metodología de formularios del profesor. */
+/** Validaciones y diálogo de confirmación */
 @Composable
 fun MovimientoView(navController: NavController, viewModel: StockScanViewModel) {
     val e by viewModel.uiState.collectAsStateWithLifecycle()
     var confirmar by remember { mutableStateOf(false) }
     val p = e.productoActual()
+
     /** Calcula el mensaje de validación antes de habilitar la confirmación. */
     val error = if (p == null || e.movimientoCantidad.isBlank()) null else {
         InventarioReglas.validarMovimiento(e.stockDe(p), e.movimientoTipo,
@@ -50,6 +51,7 @@ fun MovimientoView(navController: NavController, viewModel: StockScanViewModel) 
                 if (e.movimientoTipo == TipoMovimiento.AJUSTE && e.movimientoMotivo.isBlank()) Text("Debes justificar el ajuste")
             })
         Text("Actual: ${e.stockDe(p)} u. → Resultante: ${viewModel.resultadoMovimiento()?.let { "$it u." } ?: "Cantidad inválida"}")
+
         Accion("Revisar y confirmar movimiento", { confirmar = true },
             e.movimientoCantidad.isNotBlank() && error == null && viewModel.resultadoMovimiento() != null)
     }
@@ -57,7 +59,7 @@ fun MovimientoView(navController: NavController, viewModel: StockScanViewModel) 
     if (confirmar && p != null) AlertDialog(
         onDismissRequest = { confirmar = false },
         title = { Text("Confirmar movimiento") },
-        text = { Text("${e.movimientoTipo.titulo}: ${e.movimientoCantidad} u.\nStock final: ${viewModel.resultadoMovimiento() ?: "inválido"} u.\nEsta es una demo local.") },
+        text = { Text("${e.movimientoTipo.titulo}: ${e.movimientoCantidad} u.\nStock final: ${viewModel.resultadoMovimiento() ?: "inválido"} u.") },
         confirmButton = { TextButton(onClick = {
             confirmar = false
             if (viewModel.registrarMovimiento()) navController.irA(Destinos.Detalle.ruta)

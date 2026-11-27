@@ -64,6 +64,8 @@ fun SplashStockScanView() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
+        /** logotipo imagen */
             Image(
                 painter = painterResource(R.drawable.ic_stockscan_mark),
                 contentDescription = null,
