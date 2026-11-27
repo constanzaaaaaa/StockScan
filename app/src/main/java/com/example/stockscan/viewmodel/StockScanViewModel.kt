@@ -88,7 +88,11 @@ class StockScanViewModel(private val repository: StockScanRepository) : ViewMode
     fun onUsuarioChange(s: String) { _uiState.update { it.copy(usuario = s, mensaje = null) } }
     /** Actualiza la clave escrita en LoginView. */
     fun onClaveChange(s: String) { _uiState.update { it.copy(clave = s, mensaje = null) } }
-    /** Valida las credenciales de prueba; no implementa autenticación de producción. */
+
+
+
+
+    /** Valida las credenciales de prueba*/
     fun ingresar(): Boolean {
         val e = _uiState.value
         val valido = e.usuario.trim() == e.perfil.codigo && e.clave == "Demo-2026"
